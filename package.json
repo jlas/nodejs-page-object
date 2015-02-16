@@ -1,0 +1,10 @@
+{
+  "name": "nodejs-page-object",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "node lnkdin.js"
+  },
+  "dependencies": {
+    "selenium-webdriver": "^2.44.0"
+  }
+}
