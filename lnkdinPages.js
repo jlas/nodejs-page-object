@@ -38,7 +38,7 @@ PeoplePage.prototype.constructor = PeoplePage;
 PeoplePage.prototype.connect = function() {
   var webdriver = this.webdriver;
 
-  for (var i = 0; i < 10000; i++) {
+  for (var i = 0; i < 1000; i++) {
     var connectBtnsQ = this.webdriver.findElements(By.css('[data-act="request"]'));
     connectBtnsQ.then(function(btns) {
 
