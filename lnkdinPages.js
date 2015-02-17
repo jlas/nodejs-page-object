@@ -38,18 +38,35 @@ PeoplePage.prototype.constructor = PeoplePage;
 PeoplePage.prototype.connect = function() {
   var webdriver = this.webdriver;
 
+  var prevTitle = '';
+  var refresh = false;
+  var count = 0;
+
   for (var i = 0; i < 1000; i++) {
     var connectBtnsQ = this.webdriver.findElements(By.css('[data-act="request"]'));
     connectBtnsQ.then(function(btns) {
-
       btns.forEach(function(btn) {
-        btn.getAttribute('title').then(function(title) {
-          console.log(title)
-          btn.click();
-        });
+
+        btn.getAttribute('title').then(function (title) {
+          if (prevTitle === title) {
+            // Same person? Probably asking for email at this point
+            refresh = true;
+
+          } else {
+            console.log((count++) + ' ' + title);
+            prevTitle = title;
+            btn.click().then(null, util.errorHandler);
+          }
+        }, util.errorHandler);
+
         webdriver.sleep(util.getRandomInt(3, 5) * 1000);
       });
     });
+
+    if (refresh) {
+      webdriver.navigate().refresh();
+      refresh = false;
+    }
 
     webdriver.sleep(2000);
   }
