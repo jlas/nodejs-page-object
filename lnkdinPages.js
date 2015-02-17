@@ -38,11 +38,16 @@ PeoplePage.prototype.constructor = PeoplePage;
 PeoplePage.prototype.connect = function() {
   var webdriver = this.webdriver;
 
+  // Keep list of people we're connecting with
+  var prevTitles = [];
+
+  // Flag to refresh the page if we get stuck
   var refresh = false;
+
+  // Track total number of iterations we make
   var count = 0;
 
   for (var i = 0; i < 1000; i++) {
-    var prevTitles = [];
     var connectBtnsQ = this.webdriver.findElements(By.css('[data-act="request"]'));
     connectBtnsQ.then(function(btns) {
       btns.forEach(function(btn) {
@@ -65,6 +70,7 @@ PeoplePage.prototype.connect = function() {
 
     if (refresh) {
       webdriver.navigate().refresh();
+      prevTitles = [];
       refresh = false;
     }
 
