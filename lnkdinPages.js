@@ -38,23 +38,23 @@ PeoplePage.prototype.constructor = PeoplePage;
 PeoplePage.prototype.connect = function() {
   var webdriver = this.webdriver;
 
-  var prevTitle = '';
   var refresh = false;
   var count = 0;
 
   for (var i = 0; i < 1000; i++) {
+    var prevTitles = [];
     var connectBtnsQ = this.webdriver.findElements(By.css('[data-act="request"]'));
     connectBtnsQ.then(function(btns) {
       btns.forEach(function(btn) {
 
         btn.getAttribute('title').then(function (title) {
-          if (prevTitle === title) {
+          if (prevTitles.indexOf(title) !== -1) {
             // Same person? Probably asking for email at this point
             refresh = true;
 
           } else {
             console.log((count++) + ' ' + title);
-            prevTitle = title;
+            prevTitles.push(title);
             btn.click().then(null, util.errorHandler);
           }
         }, util.errorHandler);
