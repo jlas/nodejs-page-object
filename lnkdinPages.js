@@ -37,14 +37,22 @@ PeoplePage.prototype.constructor = PeoplePage;
 
 PeoplePage.prototype.connect = function() {
   var webdriver = this.webdriver;
-  var connectBtns = this.webdriver.findElements(By.css('[data-act="request"]'));
-  connectBtns.then(function(btns) {
-    btns.forEach(function(btn) {
-      btn.getAttribute('title').then(console.log);
-      btn.click();
-      webdriver.sleep(util.getRandomInt(3, 5) * 1000);
+
+  for (var i = 0; i < 10000; i++) {
+    var connectBtnsQ = this.webdriver.findElements(By.css('[data-act="request"]'));
+    connectBtnsQ.then(function(btns) {
+
+      btns.forEach(function(btn) {
+        btn.getAttribute('title').then(function(title) {
+          console.log(title)
+          btn.click();
+        });
+        webdriver.sleep(util.getRandomInt(3, 5) * 1000);
+      });
     });
-  });
+
+    webdriver.sleep(2000);
+  }
 };
 
 module.exports = {
